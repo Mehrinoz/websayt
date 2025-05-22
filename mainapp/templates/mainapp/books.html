@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitoblar to‘plami</title>
+    <link rel="stylesheet" href="{% static 'mainapp/book.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'index' %}" class="active">Bosh sahifa</a></li>
+                <li><a href="{% url 'books' %}" class="active">Kitoblar</a></li>
+                <li><a href="{% url 'test_list' %}" class="active">Testlar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Kitoblar to‘plami</h1>
+
+        <form method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Kitob nomi..." value="{{ request.GET.q }}">
+            <button type="submit"><i class="fas fa-search"></i> Qidirish</button>
+        </form>
+
+        {% if books %}
+        <div class="document-list">
+            {% for book in books %}
+            <div class="document-item">
+                <div class="document-header">
+                    <a href="{{ book.file.url }}" target="_blank">{{ forloop.counter }}. {{ book.title }}</a>
+                    <a href="{{ book.file.url }}" class="download-btn" download><i class="fas fa-download"></i> Yuklab olish</a>
+                </div>
+                <p class="document-desc">
+                    {% if book.description %}
+                        {{ book.description|truncatewords:20 }}
+                    {% else %}
+                        Ushbu kitob haqida qo‘shimcha ma’lumot mavjud emas.
+                    {% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert-warning">Kitoblar topilmadi.</div>
+        {% endif %}
+
+        <div class="contact">
+            <h2>Bog‘lanish</h2>
+            <p><i class="fas fa-map-marker-alt"></i> Manzil: Andijon shahri, Universitet ko‘chasi, 23</p>
+            <p><i class="fas fa-phone"></i> Telefon: +998 74 223-45-67</p>
+            <p><i class="fas fa-envelope"></i> Email: info@adu.uz</p>
+        </div>
+    </div>
+
+</body>
+</html>

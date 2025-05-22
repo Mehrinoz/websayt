@@ -1,0 +1,67 @@
+
+{% load static %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitoblar to‘plami</title>
+    <link rel="stylesheet" href="{% static 'mainapp/book.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <footer>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'index' %}" class="active">Bosh sahifa</a></li>
+                <li><a href="{% url 'books' %}" class="active">Kitoblar</a></li>
+                <li><a href="{% url 'test_list' %}" class="active">Testlar</a></li>
+
+            </ul>
+        </nav>
+    </footer>
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">{{ test.title }} - Natija</h2>
+
+    <div class="alert alert-success text-center">
+        <h5>Test ishlagan foydalanuvchi: <strong>{{ user.username }}</strong></h5>
+    </div>
+
+    <div class="alert alert-info text-center">
+        <h4>Natija: {{ score_percentage }}%</h4>
+        <p>To'g'ri javoblar: <strong>{{ correct }}</strong> ta</p>
+        <p>Noto'g'ri javoblar: <strong>{{ incorrect }}</strong> ta</p>
+        <p>Umumiy savollar: <strong>{{ total }}</strong> ta</p>
+    </div>
+
+    <div class="list-group">
+        {% for result in results %}
+        <div class="list-group-item mb-3 shadow-sm">
+            <h5>Savol {{ forloop.counter }}:</h5>
+            <p>{{ result.question.text }}</p>
+
+            {% if result.selected %}
+                <p>Siz tanlagan javob:
+                    <strong class="{% if result.is_correct %}text-success{% else %}text-danger{% endif %}">
+                        {{ result.selected.text }}
+                    </strong>
+                </p>
+            {% else %}
+                <p class="text-danger">Siz bu savolga javob bermadingiz.</p>
+            {% endif %}
+
+            <p>To'g'ri javob: <strong class="text-success">{{ result.correct_answer.text }}</strong></p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'test_list' %}" class="btn btn-primary">Barcha Testlarga Qaytish</a>
+    </div>
+</div>
+{% endblock %}
