@@ -8,6 +8,7 @@ pillow = "*"
 django = "*"
 python-decouple = "*"
 whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 
